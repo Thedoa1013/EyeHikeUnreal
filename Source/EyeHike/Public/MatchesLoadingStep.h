@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -7,27 +5,42 @@
 #include "LoadingStep.h"
 #include "MatchesLoadingStep.generated.h"
 
-
+/**
+ * @brief Loading step that matches the tracks.
+*/
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class EYEHIKE_API UMatchesLoadingStep : public USceneComponent, public ILoadingStep
 {
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
+	/**
+	* @brief Constructor. Sets default values for this component's properties.
+	*/
 	UMatchesLoadingStep();
 
 protected:
-	// Called when the game starts
+	/**
+	 * @brief Called when the game starts.
+	*/
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
+	/**
+	 * @brief Called every frame.
+	 * @param DeltaTime
+	 * @param TickType
+	 * @param ThisTickFunction
+	*/
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-
 	/**
-	* Loads from files data corresponding to current step generated in a previous loading procedure.
+	* @brief Loads from files data corresponding to current step generated in a previous loading procedure.
 	*/
 	void LoadDataFromFiles() override; 
+
+	/**
+	* @brief Launches Thread that will perform the current generation step.
+	*/
+	void LaunchLoadThread() override;
 };

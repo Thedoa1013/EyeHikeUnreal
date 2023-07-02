@@ -1,12 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "LoadingStep.generated.h"
 
-// This class does not need to be modified.
+/**
+* This class does not need to be modified and only exists for reflection purposes.
+*/
 UINTERFACE(MinimalAPI)
 class ULoadingStep : public UInterface
 {
@@ -15,25 +15,34 @@ class ULoadingStep : public UInterface
 
 /**
  * Interface which implements functionality about a step of the loading process.
+ * Add interface functions to this class. This is the class that will be inherited to implement this interface.
  */
 class EYEHIKE_API ILoadingStep
 {
 	GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	/**
-	* Loads from files data corresponding to current step generated in a previous loading procedure.
+	* @brief Loads from files data corresponding to current step generated in a previous loading procedure.
 	*/
 	virtual void LoadDataFromFiles(); 
 
 	/**
-	* Launches Thread that will perform the current generation step. 
+	* @brief Launches Thread that will perform the current generation step. 
 	*/
 	virtual void LaunchLoadThread();
 
 	/**
-	* Kills current load process. 
+	*  @brief Kills current load process. 
 	*/
 	virtual void StopLoadThread();
+
+	/**
+	 * @brief Tells whether this particular loading step has finished. 
+	 * @return True if loading has finished, false if not. 
+	*/
+	virtual bool LoadingFinished() const;
+
+protected:
+	bool m_LoadingFinished {true}; //!< Indicates if the loading step has finished. 
 };

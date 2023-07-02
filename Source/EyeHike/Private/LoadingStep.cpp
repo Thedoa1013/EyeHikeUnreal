@@ -9,3 +9,8 @@ void ILoadingStep::LoadDataFromFiles() {}
 void ILoadingStep::LaunchLoadThread() {}
 
 void ILoadingStep::StopLoadThread() {}
+
+bool ILoadingStep::LoadingFinished() const
+{
+	return m_LoadingFinished;
+}
