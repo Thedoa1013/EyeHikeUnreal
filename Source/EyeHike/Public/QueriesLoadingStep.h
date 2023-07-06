@@ -26,6 +26,29 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+
+	/**
+	 * @brief Struct whith the info to paint a line between to points in the bitmap.
+	*/
+	struct sSegmentVisualInfo
+	{
+		FColor Color {}; //!< Color of the line. 
+		float Width {1.0f}; //!< Width of the line, in some unit. 
+
+		sSegmentVisualInfo(FColor aColor, uint64_t aWidth) :
+			Color(aColor),
+			Width(aWidth)
+		{}
+
+		sSegmentVisualInfo() :
+			Color(255U,0U,0U,255U), // TODO: Move default color into variable. 
+			Width(1.0f)
+		{}
+	};
+
+	using tTrackVisualInfo = std::vector<sSegmentVisualInfo>; //!< Type to save the information to draw a OSM way. 
+	using tGroundTruthVisualInfo = std::vector<tTrackVisualInfo>; //!< Type to save the information to draw the ground truth. 
+
 	/**
 	 * @brief Called every frame.
 	 * @param DeltaTime
@@ -48,4 +71,13 @@ public:
 	* Kills current load process.
 	*/
 	void StopLoadThread() override;
+
+	/**
+	 * @brief Returns the queries info to paint the bit map. 
+	 * @return Thethe queries info.
+	*/
+	tGroundTruthVisualInfo& GetQueriesInfo();
+
+private:
+	tGroundTruthVisualInfo m_GroundTruthVisualInfo {}; //!< Information on how to paint the segments relating to the ground truth. Index of ways and points is same as in ground truth.
 };

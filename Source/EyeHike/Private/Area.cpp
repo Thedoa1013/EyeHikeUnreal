@@ -60,7 +60,7 @@ void AArea::Tick(float DeltaTime)
 
 		if (FinishedCurrentLoadingStep)
 		{
-			const eLoadingStep NextLoadingStep{ static_cast<eLoadingStep>(static_cast<uint32_t> (m_CurrentLoadingStep) + 1U) };
+			const eLoadingStep NextLoadingStep{static_cast<eLoadingStep>(static_cast<uint32_t> (m_CurrentLoadingStep) + 1U)};
 
 			if (NextLoadingStep != eLoadingStep::Loaded)
 			{
@@ -80,19 +80,21 @@ void AArea::LoadFrom(eLoadingStep aInitialLoadingStep)
 {
 	KillLoadProcesses();
 
+
 	if (aInitialLoadingStep == eLoadingStep::Download) 
 	{
 		LaunchLoadingStep(eLoadingStep::Download);
 	}
 	else 
 	{
-		LaunchLoadFromFile(aInitialLoadingStep);
+		const eLoadingStep PreviousLoadingStep{static_cast<eLoadingStep>(static_cast<uint32_t> (aInitialLoadingStep) - 1U)};
+		LaunchLoadFromFile(PreviousLoadingStep);
 	}
 }
 
 void AArea::LaunchLoadingStep(eLoadingStep aLoadingStep)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Launching loading step %s"), *LoadStepToString(aLoadingStep));
+	UE_LOG(LogTemp, Warning, TEXT("[AREA] - Launching loading step %s"), *LoadStepToString(aLoadingStep));
 
 	m_CurrentLoadingStep = aLoadingStep;
 
@@ -108,7 +110,7 @@ void AArea::LaunchLoadingStep(eLoadingStep aLoadingStep)
 
 void AArea::LaunchLoadFromFile(eLoadingStep aLoadingStep)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Launching loading from file step %s"), *LoadStepToString(aLoadingStep));
+	UE_LOG(LogTemp, Warning, TEXT("[AREA] - Launching loading from file step %s"), *LoadStepToString(aLoadingStep));
 
 	m_CurrentLoadingStep = aLoadingStep;
 

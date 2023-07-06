@@ -1,5 +1,9 @@
 #include "GroundTruthLoadingStep.h"
 
+#include "XmlFile.h"
+#include "XmlNode.h"
+
+
 UGroundTruthLoadingStep::UGroundTruthLoadingStep()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame. 
@@ -20,6 +24,41 @@ void UGroundTruthLoadingStep::TickComponent(float DeltaTime, ELevelTick TickType
 void UGroundTruthLoadingStep::LoadDataFromFiles()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Loading ground truth from file."));
-	m_LoadingFinished = true; 
-	// Load ground truth from files: parse xml. 
+
+	FXmlFile* file = new FXmlFile(L"C:/Users/roger/Documents/Universitat/montseny.gpx");
+	FXmlNode* RootNode = file->GetRootNode();
+	TArray<FXmlNode*> WayNodes = RootNode->GetChildrenNodes();
+
+	// TODO: Maybe reserve memory in advance?
+	// TODO: Maybe saving osm track id is important (like will be needed in matching?) 
+
+	uint32_t WayIndex {0U};
+
+	for (FXmlNode* Way : WayNodes)
+	{
+		if (Way->GetTag() == "way")
+		{
+			m_GroundTruth.emplace_back(tOSMTrack{});
+
+			for (FXmlNode* Point : Way->GetChildrenNodes())
+			{
+				if (Point->GetTag() == "nd")
+				{
+					double		Longitude{ FCString::Atod(*(Point->GetAttribute("lon"))) };
+					double		Latitude{ FCString::Atod(*(Point->GetAttribute("lat"))) };
+					uint64_t	Reference{ FCString::Strtoui64(*(Point->GetAttribute("ref")), NULL, 10) };
+					m_GroundTruth.at(WayIndex).emplace_back(Longitude, Latitude, Reference);
+				}
+			}
+
+			WayIndex++;
+		}
+	}
+
+	m_LoadingFinished = true;
+}
+
+UGroundTruthLoadingStep::tGroundTruth& UGroundTruthLoadingStep::GetGroundTruth()
+{
+	return m_GroundTruth;
 }

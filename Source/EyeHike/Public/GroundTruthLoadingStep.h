@@ -4,6 +4,8 @@
 #include "Components/SceneComponent.h"
 
 #include "LoadingStep.h"
+#include <cstdint>
+
 #include "GroundTruthLoadingStep.generated.h"
 
 /**
@@ -28,6 +30,25 @@ protected:
 
 public:	
 	/**
+	 * @brief Struct which represents an OSM Point.
+	*/
+	struct sOSMPoint
+	{
+		double Longitude {0.0};	//!< Longitude of the point. 
+		double Latitude {0.0};	//!< Latitude of the point. 
+		uint64_t Id {0LU};		//!< OSMref (Id) of the point. 
+
+		sOSMPoint(double aLongitude, double aLatitude, uint64_t aId) :
+			Longitude(aLongitude),
+			Latitude(aLatitude),
+			Id(aId)
+		{}
+	};
+
+	using tOSMTrack = std::vector<sOSMPoint>; //!< Type to save the information relating to a OSM way.
+	using tGroundTruth = std::vector<tOSMTrack>; //!< Type to save all the ground truth information, as parsed from the xml.
+
+	/**
 	 * @brief Called every frame. 
 	 * @param DeltaTime 
 	 * @param TickType 
@@ -39,4 +60,13 @@ public:
 	* @brief Loads from files data corresponding to current step generated in a previous loading procedure.
 	*/
 	void LoadDataFromFiles() override;
+
+	/**
+	 * @brief Returns the ground truth info.
+	 * @return The ground truth info. 
+	*/
+	tGroundTruth& GetGroundTruth();
+
+private: 
+	tGroundTruth m_GroundTruth {}; //!< The ground truth.
 };
