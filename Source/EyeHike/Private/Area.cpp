@@ -7,7 +7,6 @@
 #include "QueriesLoadingStep.h"
 
 #include <algorithm>
-#include <cstdint>
 
 AArea::AArea()
 {
@@ -60,7 +59,7 @@ void AArea::Tick(float DeltaTime)
 
 		if (FinishedCurrentLoadingStep)
 		{
-			const eLoadingStep NextLoadingStep{static_cast<eLoadingStep>(static_cast<uint32_t> (m_CurrentLoadingStep) + 1U)};
+			const eLoadingStep NextLoadingStep{static_cast<eLoadingStep>(static_cast<uint32> (m_CurrentLoadingStep) + 1U)};
 
 			if (NextLoadingStep != eLoadingStep::Loaded)
 			{
@@ -87,7 +86,7 @@ void AArea::LoadFrom(eLoadingStep aInitialLoadingStep)
 	}
 	else 
 	{
-		const eLoadingStep PreviousLoadingStep{static_cast<eLoadingStep>(static_cast<uint32_t> (aInitialLoadingStep) - 1U)};
+		const eLoadingStep PreviousLoadingStep{static_cast<eLoadingStep>(static_cast<uint32> (aInitialLoadingStep) - 1U)};
 		LaunchLoadFromFile(PreviousLoadingStep);
 	}
 }

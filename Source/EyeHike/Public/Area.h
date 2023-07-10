@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include <map>
-#include <cstdint>
+
 
 #include "Area.generated.h"
 

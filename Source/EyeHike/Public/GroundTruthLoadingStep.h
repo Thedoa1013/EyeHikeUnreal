@@ -4,7 +4,6 @@
 #include "Components/SceneComponent.h"
 
 #include "LoadingStep.h"
-#include <cstdint>
 
 #include "GroundTruthLoadingStep.generated.h"
 
