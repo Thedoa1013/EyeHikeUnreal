@@ -69,6 +69,12 @@ public:
 	*/
 	void KillLoadProcesses();
 
+	/**
+	 * @brief Returns the path of where the area files are saved.
+	 * @return The path of where the area files are saved.
+	*/
+	FString GetAreaFilesPath();
+
 protected:
 	/**
 	 * @brief Called when the game starts or when spawned.

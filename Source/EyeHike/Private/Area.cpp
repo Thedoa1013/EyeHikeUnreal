@@ -170,3 +170,8 @@ FString AArea::LoadStepToString(eLoadingStep aLoadingStep)
 		}
 	}
 }
+
+FString AArea::GetAreaFilesPath()
+{
+	return FString("HI"); 
+}
