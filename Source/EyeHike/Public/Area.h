@@ -75,6 +75,9 @@ public:
 	*/
 	FString GetAreaFilesPath();
 
+	UPROPERTY(EditAnywhere, Category="AreaConfig") 
+		FString u_AreaName {}; //!< Indicates the name of the area. 
+
 protected:
 	/**
 	 * @brief Called when the game starts or when spawned.
@@ -105,6 +108,8 @@ private:
 	using tComponentsMap		= std::map<eLoadingComponents, ILoadingStep*>;	//!< Vector of loading step components. 
 	using tComponentEnumVector	= std::vector<eLoadingComponents>;				//!< Vector of loading step enums. 
 	using tStepsToComponents	= std::map<eLoadingStep, tComponentEnumVector>;	//!< Type relating loading steps to loading components. 
+
+	FString m_DataDirectoyPath; //!< Path of all the data associated with this area.  
 
 	eLoadingStep		m_CurrentLoadingStep;	//!< Indicates the current loading step.
 	tComponentsMap		m_ComponentsVector;		//!< Vector holding pointers to all Loading steps components of the current area. 

@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
 #include "LoadingStep.h"
+#include "Engine/TextureRenderTarget2D.h"
 #include "BitMapLoadingStep.generated.h"
 
 /**
@@ -48,4 +49,7 @@ public:
 	* Kills current load process.
 	*/
 	void StopLoadThread() override;
+
+	UPROPERTY(EditAnywhere, Category = "Materials")
+		UTextureRenderTarget2D* up_RenderTarget {nullptr};
 };

@@ -15,6 +15,9 @@ AArea::AArea()
 	m_StepsToComponentsMap[eLoadingStep::Match]			= {eLoadingComponents::Match};
 	m_StepsToComponentsMap[eLoadingStep::Query]			= {eLoadingComponents::Query};
 	m_StepsToComponentsMap[eLoadingStep::Visualization]	= {eLoadingComponents::Terrain, eLoadingComponents::BitMap};
+	m_CurrentLoadingStep = eLoadingStep::Unloaded;
+
+	m_DataDirectoyPath = {}; 
 }
 
 void AArea::BeginPlay()
@@ -36,6 +39,9 @@ void AArea::BeginPlay()
 	m_ComponentsVector[eLoadingComponents::Query]		= pQueriesComponent;
 	m_ComponentsVector[eLoadingComponents::BitMap]		= pBitMapComponent;
 	m_ComponentsVector[eLoadingComponents::Terrain]		= nullptr; 
+
+	FString ProjectContentDirectory = FPaths::ProjectContentDir();
+	m_DataDirectoyPath = ProjectContentDirectory + "EyeHike/Data/" + u_AreaName + "/";
 
 	// TODO: CHANGE THIS SO IT IS CALLED FROM AREA MANAGER. 
 	LoadFrom(eLoadingStep::Match); 
@@ -173,5 +179,5 @@ FString AArea::LoadStepToString(eLoadingStep aLoadingStep)
 
 FString AArea::GetAreaFilesPath()
 {
-	return FString("HI"); 
+	return m_DataDirectoyPath;
 }

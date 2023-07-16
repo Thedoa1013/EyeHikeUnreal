@@ -1,8 +1,8 @@
 #include "GroundTruthLoadingStep.h"
 
+#include "Area.h"
 #include "XmlFile.h"
 #include "XmlNode.h"
-
 
 UGroundTruthLoadingStep::UGroundTruthLoadingStep()
 {
@@ -25,9 +25,12 @@ void UGroundTruthLoadingStep::LoadDataFromFiles()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Loading ground truth from file."));
 
-	FXmlFile* file = new FXmlFile(L"C:/Users/roger/Documents/Universitat/montseny.gpx");
-	FXmlNode* RootNode = file->GetRootNode();
-	TArray<FXmlNode*> WayNodes = RootNode->GetChildrenNodes();
+	FString DataPath {Cast<AArea>(GetOwner())->GetAreaFilesPath()};
+	FString GroundTruthFile {DataPath + "GroundTruth/GroundTruth.gpx"};
+
+	FXmlFile* File = new FXmlFile(GroundTruthFile);
+	FXmlNode* RootNode {File->GetRootNode()};
+	TArray<FXmlNode*> WayNodes {RootNode->GetChildrenNodes()};
 
 	// TODO: Maybe reserve memory in advance?
 	// TODO: Maybe saving osm track id is important (like will be needed in matching?) 
@@ -44,9 +47,9 @@ void UGroundTruthLoadingStep::LoadDataFromFiles()
 			{
 				if (Point->GetTag() == "nd")
 				{
-					double		Longitude{ FCString::Atod(*(Point->GetAttribute("lon"))) };
-					double		Latitude{ FCString::Atod(*(Point->GetAttribute("lat"))) };
-					uint64_t	Reference{ FCString::Strtoui64(*(Point->GetAttribute("ref")), NULL, 10) };
+					double Longitude {FCString::Atod(*(Point->GetAttribute("lon")))};
+					double Latitude  {FCString::Atod(*(Point->GetAttribute("lat")))};
+					uint64 Reference {FCString::Strtoui64(*(Point->GetAttribute("ref")), NULL, 10)};
 					m_GroundTruth.at(WayIndex).emplace_back(Longitude, Latitude, Reference);
 				}
 			}
